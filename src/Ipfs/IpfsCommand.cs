@@ -25,32 +25,38 @@ namespace Ipfs
         }
 
         #region ExecuteGetAsync() Overrides
+        [Obsolete("Modern ipfs nodes MUST be called only with POST command")]
         protected async Task<HttpContent> ExecuteGetAsync(string methodName, CancellationToken cancellationToken = default(CancellationToken))
         {
             return await ExecuteGetAsync(methodName, (IEnumerable<string>)null, null, cancellationToken);
         }
 
+        [Obsolete("Modern ipfs nodes MUST be called only with POST command")]
         protected async Task<HttpContent> ExecuteGetAsync(string methodName, string arg, CancellationToken cancellationToken = default(CancellationToken))
         {
             return await ExecuteGetAsync(methodName, ToEnumerable(arg), null, cancellationToken);
         }
-         
+
+        [Obsolete("Modern ipfs nodes MUST be called only with POST command")]
         protected async Task<HttpContent> ExecuteGetAsync(string methodName, IDictionary<string,string> flags, CancellationToken cancellationToken = default(CancellationToken))
         {
             return await ExecuteGetAsync(methodName, (IEnumerable<string>)null, flags, cancellationToken);
         }
 
+        [Obsolete("Modern ipfs nodes MUST be called only with POST command")]
         protected async Task<HttpContent> ExecuteGetAsync(string methodName, string arg, IDictionary<string, string> flags, CancellationToken cancellationToken = default(CancellationToken))
         {
             return await ExecuteGetAsync(methodName, ToEnumerable(arg), flags, cancellationToken);
         }
 
+        [Obsolete("Modern ipfs nodes MUST be called only with POST command")]
         protected async Task<HttpContent> ExecuteGetAsync(string methodName, IEnumerable<string> args, CancellationToken cancellationToken = default(CancellationToken))
         {
             return await ExecuteGetAsync(methodName, args, null, cancellationToken);
         }
         #endregion
 
+        [Obsolete("Modern ipfs nodes MUST be called only with POST command")]
         protected async Task<HttpContent> ExecuteGetAsync(string methodName, IEnumerable<string> args, IDictionary<string, string> flags, CancellationToken cancellationToken = default(CancellationToken))
         {
             Uri commandUri = GetSubCommandUri(methodName, args, flags);
@@ -61,6 +67,27 @@ namespace Ipfs
         }
 
         #region ExecutePostAsync() Overrides
+        protected async Task<HttpContent> ExecutePostAsync(string methodName, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            MultipartFormDataContent multiContent = new MultipartFormDataContent();
+
+            return await ExecutePostAsync(methodName, (IEnumerable<string>)null, null, multiContent, cancellationToken);
+        }
+
+        protected async Task<HttpContent> ExecutePostAsync(string methodName, string arg, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            MultipartFormDataContent multiContent = new MultipartFormDataContent();
+
+            return await ExecutePostAsync(methodName, ToEnumerable(arg), null, multiContent, cancellationToken);
+        }
+
+        protected async Task<HttpContent> ExecutePostAsync(string methodName, IDictionary<string, string> flags, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            MultipartFormDataContent multiContent = new MultipartFormDataContent();
+
+            return await ExecutePostAsync(methodName, (IEnumerable<string>)null, flags, multiContent, cancellationToken);
+        }
+
         protected async Task<HttpContent> ExecutePostAsync(string methodName, IDictionary<string, string> flags, HttpContent content, CancellationToken cancellationToken = default(CancellationToken))
         {
             return await ExecutePostAsync(methodName, null, flags, content, cancellationToken);
