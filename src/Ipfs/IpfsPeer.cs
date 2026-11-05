@@ -18,26 +18,31 @@ namespace Ipfs
 
         public bool Equals(IpfsPeer other)
         {
-            if (other == null) return false;
+            if (other == null)
+                return false;
 
             return Equals(other.Addresses, Addresses)
                 && Equals(other.PeerId, PeerId);
         }
 
+        /// <inheritdoc/>
         public override bool Equals(object obj)
         {
-            if (ReferenceEquals(obj, this)) return true;
+            if (ReferenceEquals(obj, this))
+                return true;
 
             var other = obj as IpfsPeer;
 
             return Equals(other, this);
         }
 
+        /// <inheritdoc/>
         public override int GetHashCode()
         {
             return PeerId.GetHashCode() + Addresses.GetHashCode();
         }
 
+        /// <inheritdoc/>
         public override string ToString()
         {
             return PeerId.ToString();

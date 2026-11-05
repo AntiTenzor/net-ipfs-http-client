@@ -34,6 +34,9 @@ namespace Ipfs
 
         public bool Equals(MerkleNode other)
         {
+            if (other == null)
+                return false;
+
             return Equals(other.Hash, Hash)
                 && Equals(other.Name, Name)
                 && Equals(other.Size, Size)
@@ -42,6 +45,7 @@ namespace Ipfs
                 && Equals(other.Links, Links);
         }
 
+        /// <inheritdoc/>
         public override bool Equals(object obj)
         {
             if (ReferenceEquals(this, obj)) return true;
@@ -53,11 +57,13 @@ namespace Ipfs
             return Equals(other);
         }
 
+        /// <inheritdoc/>
         public override int GetHashCode()
         {
             return Hash.GetHashCode();
         }
 
+        /// <inheritdoc/>
         public override string ToString()
         {
             return Hash.ToString();

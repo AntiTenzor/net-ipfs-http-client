@@ -46,11 +46,13 @@ namespace Ipfs
 
         public bool Equals(MultiAddress other)
         {
-            if (other == null) return false;
+            if (other == null)
+                return false;
 
             return Equals(other.OriginalString, OriginalString);
         }
 
+        /// <inheritdoc/>
         public override bool Equals(object obj)
         {
             if (ReferenceEquals(obj, this)) return true;
@@ -60,6 +62,7 @@ namespace Ipfs
             return Equals(other);
         }
 
+        /// <inheritdoc/>
         public override int GetHashCode()
         {
             return OriginalString.GetHashCode();
@@ -70,6 +73,7 @@ namespace Ipfs
             return multiAddress.ToString();
         }
 
+        /// <inheritdoc/>
         public override string ToString()
         {
             return OriginalString;
