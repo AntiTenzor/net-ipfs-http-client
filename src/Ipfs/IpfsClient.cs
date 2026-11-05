@@ -10,6 +10,9 @@ using System.Threading.Tasks;
 
 namespace Ipfs
 {
+    /// <summary>
+    /// Actual implementation of IPFS client, wrapping HTTP requests to the node
+    /// </summary>
     public class IpfsClient : IDisposable
     {
         private static Uri DefaultUri
@@ -51,9 +54,14 @@ namespace Ipfs
         /// <summary>
         /// Root commands.
         /// Gives access to top level commands like 'ipfs add' and 'ipfs cat'
-        /// Also availible at the client level with aliases defined below
+        /// Also available at the client level with aliases defined below
         /// </summary>
         private IpfsRoot _root;
+        /// <summary>
+        /// Root commands.
+        /// Gives access to top level commands like 'ipfs add' and 'ipfs cat'
+        /// Also available at the client level with aliases defined below
+        /// </summary>
         public IpfsRoot Root
         {
             get
@@ -71,6 +79,9 @@ namespace Ipfs
         /// A set of commands to manipulate the bitswap agent
         /// </summary>
         private IpfsBitSwap _bitSwap;
+        /// <summary>
+        /// A set of commands to manipulate the bitswap agent
+        /// </summary>
         public IpfsBitSwap BitSwap
         {
             get
@@ -89,6 +100,9 @@ namespace Ipfs
         /// Block subcommands
         /// </summary>
         private IpfsBlock _block;
+        /// <summary>
+        /// Block subcommands
+        /// </summary>
         public IpfsBlock Block
         {
             get
@@ -107,6 +121,9 @@ namespace Ipfs
         /// Bootstrap subcommands
         /// </summary>
         private IpfsBootstrap _bootstrap;
+        /// <summary>
+        /// Bootstrap subcommands
+        /// </summary>
         public IpfsBootstrap Bootstrap
         {
             get
@@ -122,9 +139,12 @@ namespace Ipfs
         }
 
         /// <summary>
-        /// Config subcommands
+        /// Config subcommands (WARNING! It is ADMIN-level commands)
         /// </summary>
         private IpfsConfig _config;
+        /// <summary>
+        /// Config subcommands (WARNING! It is ADMIN-level commands)
+        /// </summary>
         public IpfsConfig Config
         {
             get
@@ -143,6 +163,9 @@ namespace Ipfs
         /// Dht subcommands
         /// </summary>
         private IpfsDht _dht;
+        /// <summary>
+        /// Dht subcommands
+        /// </summary>
         public IpfsDht Dht
         {
             get
@@ -161,6 +184,9 @@ namespace Ipfs
         /// Diag subcommands
         /// </summary>
         private IpfsDiag _diag;
+        /// <summary>
+        /// Diag subcommands
+        /// </summary>
         public IpfsDiag Diag
         {
             get
@@ -179,6 +205,9 @@ namespace Ipfs
         /// Interact with ipfs objects representing Unix filesystems
         /// </summary>
         private IpfsFile _file;
+        /// <summary>
+        /// Interact with ipfs objects representing Unix filesystems
+        /// </summary>
         public IpfsFile File
         {
             get
@@ -197,6 +226,9 @@ namespace Ipfs
         /// Log subcommands
         /// </summary>
         private IpfsLog _log;
+        /// <summary>
+        /// Log subcommands
+        /// </summary>
         public IpfsLog Log
         {
             get
@@ -215,6 +247,9 @@ namespace Ipfs
         /// Name subcommands
         /// </summary>
         private IpfsName _name;
+        /// <summary>
+        /// Name subcommands
+        /// </summary>
         public IpfsName Name
         {
             get
@@ -233,6 +268,9 @@ namespace Ipfs
         /// Object subcommands
         /// </summary>
         private IpfsObject _object;
+        /// <summary>
+        /// Object subcommands
+        /// </summary>
         public IpfsObject Object
         {
             get
@@ -251,6 +289,9 @@ namespace Ipfs
         /// Pin subcommands
         /// </summary>
         private IpfsPin _pin;
+        /// <summary>
+        /// Pin subcommands
+        /// </summary>
         public IpfsPin Pin
         {
             get
@@ -269,6 +310,9 @@ namespace Ipfs
         /// Refs subcommands
         /// </summary>
         private IpfsRefs _refs;
+        /// <summary>
+        /// Refs subcommands
+        /// </summary>
         public IpfsRefs Refs
         {
             get
@@ -287,6 +331,9 @@ namespace Ipfs
         /// Repo subcommands
         /// </summary>
         private IpfsRepo _repo;
+        /// <summary>
+        /// Repo subcommands
+        /// </summary>
         public IpfsRepo Repo
         {
             get
@@ -305,6 +352,9 @@ namespace Ipfs
         /// Query IPFS statistics
         /// </summary>
         private IpfsStats _stats;
+        /// <summary>
+        /// Query IPFS statistics
+        /// </summary>
         public IpfsStats Stats
         {
             get
@@ -323,6 +373,9 @@ namespace Ipfs
         /// Swarm subcommands
         /// </summary>
         private IpfsSwarm _swarm;
+        /// <summary>
+        /// Swarm subcommands
+        /// </summary>
         public IpfsSwarm Swarm
         {
             get
@@ -338,9 +391,12 @@ namespace Ipfs
         }
 
         /// <summary>
-        /// utility functions for tar files in ipfs
+        /// Utility functions for tar files in ipfs
         /// </summary>
         private IpfsTar _tar;
+        /// <summary>
+        /// Utility functions for tar files in ipfs
+        /// </summary>
         public IpfsTar Tar
         {
             get
@@ -359,6 +415,9 @@ namespace Ipfs
         /// Tour subcommands
         /// </summary>
         private IpfsTour _tour;
+        /// <summary>
+        /// Tour subcommands
+        /// </summary>
         public IpfsTour Tour
         {
             get
@@ -396,7 +455,7 @@ namespace Ipfs
 
         /// <summary>
         /// Add an object to ipfs.
-        /// Adds contents of <path> to ipfs. Use -r to add directories.
+        /// Adds contents of [path] to ipfs. Use -r to add directories.
         /// Note that directories are added recursively, to form the ipfs
         /// MerkleDAG.A smarter partial add with a staging area(like git)
         /// remains to be implemented
@@ -416,7 +475,7 @@ namespace Ipfs
 
         /// <summary>
         /// Show IPFS object data
-        /// Retrieves the object named by <ipfs-path> and outputs the data
+        /// Retrieves the object named by [ipfs-path] and outputs the data
         /// it contains.
         /// </summary>
         /// <param name="ipfsPath">The path to the IPFS object(s) to be outputted</param>
@@ -504,10 +563,10 @@ namespace Ipfs
         /// <summary>
         /// List links from an object.
         ///
-        ///  Retrieves the object named by <ipfs-path> and displays the links
+        ///  Retrieves the object named by [ipfs-path] and displays the links
         ///  it contains, with the following format:
         ///
-        /// <link base58 hash> <link size in bytes> <link name>
+        /// [link base58 hash] [link size in bytes] [link name]
         /// </summary>
         /// <param name="path">The path to the IPFS object(s) to list links from</param>
         /// <param name="cancellationToken">Token allowing you to cancel the request</param>
@@ -553,9 +612,9 @@ namespace Ipfs
 
         /// <summary>
         /// Lists links (references) from an object
-        /// Retrieves the object named by <ipfs-path> and displays the link
+        /// Retrieves the object named by [ipfs-path] and displays the link
         /// hashes it contains, with the following format:
-        ///  <link base58 hash>
+        /// [link base58 hash]
         /// </summary>
         /// <param name="ipfsPath">Path to the object(s) to list refs from</param>
         /// <param name="format">Emit edges with given format. tokens: <src> <dst> <linkname></param>
@@ -606,16 +665,19 @@ namespace Ipfs
 
         protected virtual void Dispose(bool disposing)
         {
-            if (_disposed) return;
+            if (_disposed)
+                return;
 
             if (disposing)
             {
-                if (_httpClient != null) _httpClient.Dispose();
+                if (_httpClient != null)
+                    _httpClient.Dispose();
             }
 
             _disposed = true;
         }
 
+        /// <inheritdoc/>
         public void Dispose()
         {
             Dispose(true);
