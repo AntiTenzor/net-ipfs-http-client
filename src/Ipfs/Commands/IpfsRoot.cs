@@ -228,7 +228,9 @@ namespace Ipfs.Commands
                 flags.Add("format", format);
             }
 
-            HttpContent content = await ExecuteGetAsync("id", peerId, flags, cancellationToken);
+            MultipartFormDataContent multiContent = new MultipartFormDataContent();
+
+            HttpContent content = await ExecutePostAsync("id", ToEnumerable(peerId), flags, multiContent, cancellationToken);
 
             string json = await content.ReadAsStringAsync();
 
@@ -306,7 +308,7 @@ namespace Ipfs.Commands
         /// <returns></returns>
         public async Task<IpfsPingResult> Ping(string peerId, int? count = null, CancellationToken cancellationToken = default(CancellationToken))
         {
-            HttpContent content = await ExecuteGetAsync("ping", peerId, cancellationToken);
+            HttpContent content = await ExecutePostAsync("ping", peerId, cancellationToken);
             string json = await content.ReadAsStringAsync();
             return _jsonSerializer.Deserialize<IpfsPingResult>(json);
         }
@@ -394,7 +396,7 @@ namespace Ipfs.Commands
         /// <returns>Returns the current version of ipfs and exits.</returns>
         public async Task<IpfsVersion> Version(bool number = false, CancellationToken cancellationToken = default(CancellationToken))
         {
-            HttpContent content = await ExecuteGetAsync("version", cancellationToken);
+            HttpContent content = await ExecutePostAsync("version", cancellationToken);
             string json = await content.ReadAsStringAsync();
             return _jsonSerializer.Deserialize<IpfsVersion>(json);
         }

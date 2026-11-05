@@ -25,7 +25,7 @@ namespace Ipfs.Commands
         /// <returns>all addresses this node is aware of</returns>
         public async Task<IEnumerable<IpfsPeer>> Addrs(CancellationToken cancellationToken = default(CancellationToken))
         {
-            HttpContent content = await ExecuteGetAsync("addrs", cancellationToken);
+            HttpContent content = await ExecutePostAsync("addrs", cancellationToken);
 
             string json = await content.ReadAsStringAsync();
 
@@ -52,7 +52,7 @@ namespace Ipfs.Commands
         /// <returns></returns>
         public async Task<HttpContent> Connect(string address, CancellationToken cancellationToken = default(CancellationToken))
         {
-            return await ExecuteGetAsync("connect", address, cancellationToken);
+            return await ExecutePostAsync("connect", address, cancellationToken);
         }
 
         /// <summary>
@@ -113,12 +113,14 @@ namespace Ipfs.Commands
         /// 
         /// ipfs swarm disconnect /ip4/104.131.131.82/tcp/4001/ipfs/QmaCpDMGvV2BGHeYERUEnRQAwe3N8SzbUtfsmvsqQLuvuJ
         /// </summary>
-        /// <param name="multiAddress">address of peer to disconnect from</param>
+        /// <param name="multiAddresses">addresses of peers to disconnect from</param>
         /// <param name="cancellationToken">Token allowing you to cancel the request</param>
-        /// <returns>'disconnect <address> successs' on success</returns>
+        /// <returns>'disconnect [address] successs' on success</returns>
         public async Task<ICollection<IpfsPeerConnectionStatus>> Disconnect(IEnumerable<string> multiAddresses, CancellationToken cancellationToken = default(CancellationToken))
         {
-            HttpContent content = await ExecuteGetAsync("disconnect", multiAddresses, null, cancellationToken);
+            MultipartFormDataContent multiContent = new MultipartFormDataContent();
+
+            HttpContent content = await ExecutePostAsync("disconnect", multiAddresses, null, multiContent, cancellationToken);
 
             string json = await content.ReadAsStringAsync();
 
@@ -142,7 +144,7 @@ namespace Ipfs.Commands
         /// <returns></returns>
         public async Task<ICollection<MultiAddress>> Peers(CancellationToken cancellationToken = default(CancellationToken))
         {
-            HttpContent content = await ExecuteGetAsync("peers", cancellationToken);
+            HttpContent content = await ExecutePostAsync("peers", cancellationToken);
             string json = await content.ReadAsStringAsync();
                        
             dynamic results = JObject.Parse(json);
