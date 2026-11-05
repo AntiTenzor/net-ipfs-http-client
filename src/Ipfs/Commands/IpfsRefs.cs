@@ -22,13 +22,13 @@ namespace Ipfs.Commands
         /// <returns>Returns an enumerable of multihashes, or an empty enumerable if nothing is found.</returns>
         public async Task<IEnumerable<MultiHash>> Local(CancellationToken cancellationToken = default(CancellationToken))
         {
-            HttpContent content = await ExecuteGetAsync("local", cancellationToken);
+            HttpContent content = await ExecutePostAsync("local", cancellationToken);
 
             //DOESN'T return json!
             //Returns a list of multihashes separated by "\n"
-            var stringContent = await content.ReadAsStringAsync();
+            string stringContent = await content.ReadAsStringAsync();
 
-            if(String.IsNullOrEmpty(stringContent))
+            if (String.IsNullOrEmpty(stringContent))
             {
                 return Enumerable.Empty<MultiHash>();
             }

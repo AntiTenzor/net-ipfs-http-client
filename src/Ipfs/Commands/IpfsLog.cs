@@ -56,7 +56,7 @@ namespace Ipfs.Commands
 
             string json = await content.ReadAsStringAsync();
 
-            if(String.IsNullOrEmpty(json))
+            if (String.IsNullOrEmpty(json))
             {
                 return String.Empty;
             }
@@ -74,7 +74,7 @@ namespace Ipfs.Commands
         /// <returns>A stream to the log tail output</returns>
         public async Task<Stream> Tail(CancellationToken cancellationToken = default(CancellationToken))
         {
-            HttpContent content = await ExecuteGetAsync("tail", cancellationToken);
+            HttpContent content = await ExecutePostAsync("tail", cancellationToken);
 
             return await content.ReadAsStreamAsync();
         }

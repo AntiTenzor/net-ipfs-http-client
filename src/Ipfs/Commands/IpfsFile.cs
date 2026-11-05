@@ -15,7 +15,7 @@ namespace Ipfs.Commands
         /// <summary>
         /// List directory contents for Unix-filesystem objects
         /// 
-        /// Retrieves the object named by <ipfs-or-ipns-path> and displays the
+        /// Retrieves the object named by [ipfs-or-ipns-path] and displays the
         /// contents.
         /// 
         /// The JSON output contains size information.For files, the child size
@@ -27,7 +27,7 @@ namespace Ipfs.Commands
         /// <returns></returns>
         public async Task<HttpContent> Ls(string path, CancellationToken cancellationToken = default(CancellationToken))
         {
-            return await ExecuteGetAsync("ls", cancellationToken);
+            return await ExecutePostAsync("ls", cancellationToken);
         }
     }
 }

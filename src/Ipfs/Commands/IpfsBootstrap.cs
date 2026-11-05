@@ -34,7 +34,7 @@ namespace Ipfs.Commands
         {
             Dictionary<string, string> args = new Dictionary<string, string>();
 
-            if(@default)
+            if (@default)
             {
                 args.Add("default", "true");
             }
@@ -44,13 +44,13 @@ namespace Ipfs.Commands
 
         /// <summary>
         /// Show peers in the bootstrap list
-        /// Peers are output in the format '<multiaddr>/<peerID>'.
+        /// Peers are output in the format '[multiaddr]/[peerID]'.
         /// </summary>
         /// <param name="cancellationToken">Token allowing you to cancel the request</param>
         /// <returns></returns>
         public async Task<HttpContent> List(CancellationToken cancellationToken = default(CancellationToken))
         {
-            return await ExecuteGetAsync("list", cancellationToken);
+            return await ExecutePostAsync("list", cancellationToken);
         }
 
         /// <summary>
@@ -72,7 +72,7 @@ namespace Ipfs.Commands
         {
             var flags = new Dictionary<string, string>();
 
-            if(all)
+            if (all)
             {
                 flags.Add("all", "true");
             }

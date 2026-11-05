@@ -21,7 +21,7 @@ namespace Ipfs.Commands
         /// <returns>IpfsBitSwapStat object</returns>
         public async Task<IpfsBitSwapStat> Stat(CancellationToken cancellationToken = default(CancellationToken))
         {
-            HttpContent content = await ExecuteGetAsync("stat", cancellationToken);
+            HttpContent content = await ExecutePostAsync("stat", cancellationToken);
 
             string json = await content.ReadAsStringAsync();
 
@@ -61,7 +61,7 @@ namespace Ipfs.Commands
         {
             var flags = new Dictionary<string, string>();
 
-            if(!String.IsNullOrEmpty(peer))
+            if (!String.IsNullOrEmpty(peer))
             {
                 flags.Add("peer", peer);
             }

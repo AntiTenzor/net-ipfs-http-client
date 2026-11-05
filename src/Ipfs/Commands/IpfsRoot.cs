@@ -73,7 +73,7 @@ namespace Ipfs.Commands
         /// <returns>A stream to your file</returns>
         public async Task<Stream> Cat(string ipfsPath, CancellationToken cancellationToken = default(CancellationToken))
         {
-            return await ExecuteGetStreamAsync("cat", ipfsPath, cancellationToken);            
+            return await ExecuteGetStreamAsync("cat", ipfsPath, cancellationToken);
         }
 
         /// <summary>
@@ -83,7 +83,7 @@ namespace Ipfs.Commands
         /// <returns></returns>
         public async Task<Json.IpfsCommand> Commands(CancellationToken cancellationToken = default(CancellationToken))
         {
-            HttpContent content = await ExecuteGetAsync("commands", cancellationToken);
+            HttpContent content = await ExecutePostAsync("commands", cancellationToken);
             string json = await content.ReadAsStringAsync();
             return _jsonSerializer.Deserialize<Json.IpfsCommand>(json);
         }
@@ -147,12 +147,14 @@ namespace Ipfs.Commands
         {
             var flags = new Dictionary<string, string>();
 
-            if(recursive)
+            if (recursive)
             {
                 flags.Add("recursive", "true");
             }
 
-            return await ExecuteGetAsync("dns", domainName, flags, cancellationToken);
+            MultipartFormDataContent multiContent = new MultipartFormDataContent();
+
+            return await ExecutePostAsync("dns", ToEnumerable(domainName), flags, multiContent, cancellationToken);
         }
 
         /// <summary>
@@ -240,7 +242,7 @@ namespace Ipfs.Commands
             {
                 ID = new MultiHash(id.ID),
                 PublicKey = id.PublicKey,
-                Addresses = id.Addresses.Select(x=>new MultiAddress(x)).ToList(),
+                Addresses = id.Addresses.Select(x => new MultiAddress(x)).ToList(),
                 AgentVersion = id.AgentVersion,
                 ProtocolVersion = id.ProtocolVersion
             };
@@ -292,7 +294,7 @@ namespace Ipfs.Commands
                 flags.Add("n", n);
             }
 
-            return await ExecuteGetAsync("mount", cancellationToken);
+            return await ExecutePostAsync("mount", flags, cancellationToken);
         }
 
         /// <summary>
@@ -363,10 +365,10 @@ namespace Ipfs.Commands
         {
             try
             {
-                await ExecuteGetAsync("shutdown", cancellationToken);
+                await ExecutePostAsync("shutdown", cancellationToken);
             }
             catch (HttpRequestException)
-            {                
+            {
                 /* Currently shutdown always results in a HttpRequestException 
                  * because the daemon shuts down before sending a response */
             }

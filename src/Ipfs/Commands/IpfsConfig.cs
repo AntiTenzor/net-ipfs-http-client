@@ -21,12 +21,12 @@ namespace Ipfs.Commands
         /// <returns></returns>
         public async Task<HttpContent> Edit(CancellationToken cancellationToken = default(CancellationToken))
         {
-            return await ExecuteGetAsync("edit", cancellationToken);
+            return await ExecutePostAsync("edit", cancellationToken);
         }
 
         /// <summary>
-        /// Replaces the config with <file>
-        /// Make sure to back up the config file first if neccessary, this operation
+        /// Replaces the config with [file]
+        /// Make sure to back up the config file first if necessary, this operation
         /// can't be undone.
         /// </summary>
         /// <param name="file">The file to use as the new config</param>
@@ -34,7 +34,7 @@ namespace Ipfs.Commands
         /// <returns></returns>
         public async Task<HttpContent> Replace(string file, CancellationToken cancellationToken = default(CancellationToken))
         {
-            return await ExecuteGetAsync("replace", file, cancellationToken);
+            return await ExecutePostAsync("replace", file, cancellationToken);
         }
 
         /// <summary>
@@ -46,8 +46,8 @@ namespace Ipfs.Commands
         /// <returns></returns>
         public async Task<IpfsConfigShow> Show(CancellationToken cancellationToken = default(CancellationToken))
         {
-            HttpContent content = await ExecuteGetAsync("show", cancellationToken);
-            var json = await content.ReadAsStringAsync();
+            HttpContent content = await ExecutePostAsync("show", cancellationToken);
+            string json = await content.ReadAsStringAsync();
             return _jsonSerializer.Deserialize<IpfsConfigShow>(json);
         }
     }

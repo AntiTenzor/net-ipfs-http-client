@@ -20,7 +20,7 @@ namespace Ipfs.Commands
         /// <returns>Stream to tour topcs</returns>
         public async Task<Stream> List(CancellationToken cancellationToken = default(CancellationToken))
         {
-            HttpContent content = await ExecuteGetAsync("list", cancellationToken);
+            HttpContent content = await ExecutePostAsync("list", cancellationToken);
 
             return await content.ReadAsStreamAsync();
         }
@@ -32,7 +32,7 @@ namespace Ipfs.Commands
         /// <returns>Next tour topic</returns>
         public async Task<Stream> Next(CancellationToken cancellationToken = default(CancellationToken))
         {
-            HttpContent content = await ExecuteGetAsync("next", cancellationToken);
+            HttpContent content = await ExecutePostAsync("next", cancellationToken);
 
             return await content.ReadAsStreamAsync();
         }
@@ -43,7 +43,7 @@ namespace Ipfs.Commands
         /// <param name="cancellationToken">Token allowing you to cancel the request</param>
         public async Task Restart(CancellationToken cancellationToken = default(CancellationToken))
         {
-            await ExecuteGetAsync("restart", cancellationToken);
+            await ExecutePostAsync("restart", cancellationToken);
         }
     }
 }
