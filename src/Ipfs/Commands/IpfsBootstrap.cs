@@ -46,11 +46,19 @@ namespace Ipfs.Commands
         /// Show peers in the bootstrap list
         /// Peers are output in the format '[multiaddr]/[peerID]'.
         /// </summary>
+        /// <param name="auto">list automatic bootstrap addresses</param>
         /// <param name="cancellationToken">Token allowing you to cancel the request</param>
         /// <returns></returns>
-        public async Task<HttpContent> List(CancellationToken cancellationToken = default(CancellationToken))
+        public async Task<HttpContent> List(bool auto = true, CancellationToken cancellationToken = default(CancellationToken))
         {
-            return await ExecutePostAsync("list", cancellationToken);
+            var flags = new Dictionary<string, string>();
+
+            if (auto)
+            {
+                flags.Add("auto", "true");
+            }
+
+            return await ExecutePostAsync("list", flags, cancellationToken);
         }
 
         /// <summary>

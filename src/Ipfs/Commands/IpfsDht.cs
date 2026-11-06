@@ -21,7 +21,7 @@ namespace Ipfs.Commands
         /// <returns></returns>
         public async Task<HttpContent> FindPeer(string peerID, CancellationToken cancellationToken = default(CancellationToken))
         {
-            return await ExecuteGetAsync("findpeer", peerID, cancellationToken);
+            return await ExecutePostAsync("findpeer", peerID, cancellationToken);
         }
 
         /// <summary>
@@ -32,16 +32,18 @@ namespace Ipfs.Commands
         /// <param name="verbose">Write extra information</param>
         /// <param name="cancellationToken">Token allowing you to cancel the request</param>
         /// <returns></returns>
-        public async Task<HttpContent> FindProvs(string key, bool verbose = false, CancellationToken cancellationToken = default(CancellationToken))
+        public async Task<HttpContent> FindProvs(string key, bool verbose = true, CancellationToken cancellationToken = default(CancellationToken))
         {
             var flags = new Dictionary<string, string>();
 
-            if(verbose)
+            if (verbose)
             {
                 flags.Add("verbose", "true");
             }
 
-            return await ExecuteGetAsync("findprovs", key, flags, cancellationToken);
+            MultipartFormDataContent multiContent = new MultipartFormDataContent();
+
+            return await ExecutePostAsync("findprovs", ToEnumerable(key), flags, multiContent, cancellationToken);
         }
 
         /// <summary>
@@ -51,7 +53,7 @@ namespace Ipfs.Commands
         /// <param name="verbose">Write extra information</param>
         /// <param name="cancellationToken">Token allowing you to cancel the request</param>
         /// <returns></returns>
-        public async Task<HttpContent> Query(string peerID, bool verbose = false, CancellationToken cancellationToken = default(CancellationToken))
+        public async Task<HttpContent> Query(string peerID, bool verbose = true, CancellationToken cancellationToken = default(CancellationToken))
         {
             var flags = new Dictionary<string, string>();
 
@@ -60,7 +62,9 @@ namespace Ipfs.Commands
                 flags.Add("verbose", "true");
             }
 
-            return await ExecuteGetAsync("findprovs", peerID, flags, cancellationToken);
+            MultipartFormDataContent multiContent = new MultipartFormDataContent();
+
+            return await ExecutePostAsync("findprovs", ToEnumerable(peerID), flags, multiContent, cancellationToken);
         }
     }
 }
