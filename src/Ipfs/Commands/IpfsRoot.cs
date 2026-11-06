@@ -65,7 +65,7 @@ namespace Ipfs.Commands
 
         /// <summary>
         /// Show IPFS object data
-        /// Retrieves the object named by <ipfs-path> and outputs the data
+        /// Retrieves the object named by [ipfs-path] and outputs the data
         /// it contains.
         /// </summary>
         /// <param name="ipfsPath">The path to the IPFS object(s) to be outputted</param>
