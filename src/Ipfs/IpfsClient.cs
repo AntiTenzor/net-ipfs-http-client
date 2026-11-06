@@ -432,6 +432,28 @@ namespace Ipfs
             }
         }
 
+        /// <summary>
+        /// PubSub subcommands
+        /// </summary>
+        private IpfsPubSub _pubsub;
+        /// <summary>
+        /// PubSub subcommands
+        /// </summary>
+        public IpfsPubSub PubSub
+        {
+            get
+            {
+                if (_pubsub == null)
+                {
+                    Uri commandUri = UriHelper.AppendPath(_apiUri, "name");
+                    commandUri = UriHelper.AppendPath(commandUri, "pubsub");
+                    _pubsub = new IpfsPubSub(commandUri, _httpClient, _jsonSerializer);
+                }
+
+                return _pubsub;
+            }
+        }
+
         #region Root command aliases
 
         ///// <summary>
