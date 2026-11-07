@@ -251,17 +251,17 @@ namespace Ipfs.Commands
         /// <summary>
         /// List links from an object.
         ///
-        ///  Retrieves the object named by <ipfs-path> and displays the links
-        ///  it contains, with the following format:
+        /// Retrieves the object named by [ipfs-path] and displays the links
+        /// it contains, with the following format:
         ///
-        /// <link base58 hash> <link size in bytes> <link name>
+        /// [link base58 hash] [link size in bytes] [link name]
         /// </summary>
         /// <param name="path">The path to the IPFS object(s) to list links from</param>
         /// <param name="cancellationToken">Token allowing you to cancel the request</param>
         /// <returns></returns>
         public async Task<IList<MerkleNode>> Ls(string path, CancellationToken cancellationToken = default(CancellationToken))
         {
-            HttpContent content = await ExecuteGetAsync("ls", path, cancellationToken);
+            HttpContent content = await ExecutePostAsync("ls", path, cancellationToken);
             string json = await content.ReadAsStringAsync();
             var jsonDict = _jsonSerializer.Deserialize<IDictionary<string, IList<MerkleNode>>>(json);
             return jsonDict.Values.First();
@@ -317,9 +317,9 @@ namespace Ipfs.Commands
 
         /// <summary>
         /// Lists links (references) from an object
-        /// Retrieves the object named by <ipfs-path> and displays the link
+        /// Retrieves the object named by [ipfs-path] and displays the link
         /// hashes it contains, with the following format:
-        ///  <link base58 hash>
+        ///  [link base58 hash]
         /// </summary>
         /// <param name="ipfsPath">Path to the object(s) to list refs from</param>
         /// <param name="format">Emit edges with given format. tokens: <src> <dst> <linkname></param>
@@ -352,7 +352,7 @@ namespace Ipfs.Commands
                 flags.Add("recursive", "true");
             }
 
-            return await ExecuteGetAsync("refs", ipfsPath, cancellationToken);
+            return await ExecutePostAsync("refs", ipfsPath, cancellationToken);
         }
 
         /// <summary>
@@ -384,9 +384,10 @@ namespace Ipfs.Commands
         /// <param name="id">The id of the topic you would like to tour</param>
         /// <param name="cancellationToken">Token allowing you to cancel the request</param>
         /// <returns></returns>
+        [Obsolete("Looks like there is no command Tour anymore(?)")]
         public async Task<Stream> TourCommand(string id, CancellationToken cancellationToken = default(CancellationToken))
         {
-            HttpContent content = await ExecuteGetAsync("tour", id, cancellationToken);
+            HttpContent content = await ExecutePostAsync("tour", id, cancellationToken);
             return await content.ReadAsStreamAsync();
         }
 

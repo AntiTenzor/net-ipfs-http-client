@@ -26,12 +26,6 @@ namespace Ipfs
 
         #region ExecuteGetAsync() Overrides
         [Obsolete("Modern ipfs nodes MUST be called only with POST command")]
-        protected async Task<HttpContent> ExecuteGetAsync(string methodName, string arg, CancellationToken cancellationToken = default(CancellationToken))
-        {
-            return await ExecuteGetAsync(methodName, ToEnumerable(arg), null, cancellationToken);
-        }
-
-        [Obsolete("Modern ipfs nodes MUST be called only with POST command")]
         protected async Task<HttpContent> ExecuteGetAsync(string methodName, IDictionary<string,string> flags, CancellationToken cancellationToken = default(CancellationToken))
         {
             return await ExecuteGetAsync(methodName, (IEnumerable<string>)null, flags, cancellationToken);

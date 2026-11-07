@@ -18,49 +18,49 @@ namespace Ipfs.Commands
         /// <summary>
         /// Outputs the raw bytes in an IPFS object
         /// 
-        /// ipfs data is a plumbing command for retreiving the raw bytes stored in
-        /// a DAG node.It outputs to stdout, and <key> is a base58 encoded
-        /// multihash.
+        /// ipfs data is a plumbing command for retrieving the raw bytes stored in
+        /// a DAG node. It outputs to stdout, and [key] is a base58 encoded multihash.
         /// </summary>
-        /// <param name="key">Key of the object to retrieve, in base58-encoded multihash format</param>
+        /// <param name="base58multihashOfData">Key of the object to retrieve, in base58-encoded multihash format</param>
         /// <param name="cancellationToken">Token allowing you to cancel the request</param>
         /// <returns></returns>
-        public async Task<HttpContent> Data(string key, CancellationToken cancellationToken = default(CancellationToken))
+        public async Task<HttpContent> Data(string base58multihashOfData, CancellationToken cancellationToken = default(CancellationToken))
         {
-            return await ExecuteGetAsync("data", key, cancellationToken);
+            return await ExecutePostAsync("data", base58multihashOfData, cancellationToken);
         }
 
         /// <summary>
-        /// Get and serialize the DAG node named by <key>
-        /// 'ipfs object get' is a plumbing command for retreiving DAG nodes.
+        /// Get and serialize the DAG node named by [key]
+        /// 'ipfs object get' is a plumbing command for retrieving DAG nodes.
         /// It serializes the DAG node to the format specified by the "--encoding"
-        /// flag.It outputs to stdout, and <key> is a base58 encoded multihash.
+        /// flag. It outputs to stdout, and [key] is a base58 encoded multihash.
         /// </summary>
-        /// <param name="key">Key of the object to retrieve (in base58-encoded multihash format)</param>
+        /// <param name="base58multihashOfData">Key of the object to retrieve (in base58-encoded multihash format)</param>
         /// <param name="encoding">The encoding of the data</param>
         /// <param name="cancellationToken">Token allowing you to cancel the request</param>
         /// <returns></returns>
-        public async Task<HttpContent> Get(string key, IpfsEncoding encoding, CancellationToken cancellationToken = default(CancellationToken))
+        public async Task<HttpContent> Get(string base58multihashOfData, IpfsEncoding encoding, CancellationToken cancellationToken = default(CancellationToken))
         {
             var flags = new Dictionary<string, string>();
 
             flags.Add("encoding", GetIpfsEncodingValue(encoding));
 
-            return await ExecuteGetAsync("get", key, flags, cancellationToken);
+            MultipartFormDataContent multiContent = new MultipartFormDataContent();
+
+            return await ExecutePostAsync("get", ToEnumerable(base58multihashOfData), flags, multiContent, cancellationToken);
         }
 
         /// <summary>
         /// Outputs the links pointed to by the specified object
-        /// 'ipfs object links' is a plumbing command for retreiving the links from
-        /// a DAG node.It outputs to stdout, and <key> is a base58 encoded
-        /// multihash.
+        /// 'ipfs object links' is a plumbing command for retrieving the links from
+        /// a DAG node.It outputs to stdout, and [key] is a base58 encoded multihash.
         /// </summary>
-        /// <param name="key">Key of the object to retrieve, in base58-encoded multihash format</param>
+        /// <param name="base58multihashOfData">Key of the object to retrieve, in base58-encoded multihash format</param>
         /// <param name="cancellationToken">Token allowing you to cancel the request</param>
         /// <returns></returns>
-        public async Task<IpfsObjectLinks> Links(string key, CancellationToken cancellationToken = default(CancellationToken))
+        public async Task<IpfsObjectLinks> Links(string base58multihashOfData, CancellationToken cancellationToken = default(CancellationToken))
         {
-            HttpContent content = await ExecuteGetAsync("links", key, cancellationToken);
+            HttpContent content = await ExecutePostAsync("links", base58multihashOfData, cancellationToken);
 
             string json = await content.ReadAsStringAsync();
 
@@ -107,16 +107,16 @@ namespace Ipfs.Commands
         }
 
         /// <summary>
-        /// Get stats for the DAG node named by <key>
+        /// Get stats for the DAG node named by [key]
         /// 'ipfs object stat' is a plumbing command to print DAG node statistics.
-        /// <key> is a base58 encoded multihash.It outputs to stdout:
+        /// [key] is a base58 encoded multihash. It outputs to stdout:
         /// </summary>
-        /// <param name="key">Key of the object to retrieve (in base58-encoded multihash format)</param>
+        /// <param name="base58multihashOfData">Key of the object to retrieve (in base58-encoded multihash format)</param>
         /// <param name="cancellationToken">Token allowing you to cancel the request</param>
         /// <returns></returns>
-        public async Task<IpfsObjectStat> Stat(string key, CancellationToken cancellationToken = default(CancellationToken))
+        public async Task<IpfsObjectStat> Stat(string base58multihashOfData, CancellationToken cancellationToken = default(CancellationToken))
         {
-            HttpContent content = await ExecuteGetAsync("stat", key, cancellationToken);
+            HttpContent content = await ExecutePostAsync("stat", base58multihashOfData, cancellationToken);
 
             string json = await content.ReadAsStringAsync();
 

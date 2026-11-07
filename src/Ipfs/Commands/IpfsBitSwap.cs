@@ -46,7 +46,7 @@ namespace Ipfs.Commands
         /// <returns></returns>
         public async Task<HttpContent> Unwant(string key, CancellationToken cancellationToken = default(CancellationToken))
         {
-            return await ExecuteGetAsync("unwant", key, cancellationToken);
+            return await ExecutePostAsync("unwant", key, cancellationToken);
         }
 
         /// <summary>
