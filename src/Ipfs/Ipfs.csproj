@@ -43,6 +43,7 @@
     <Compile Include="Commands\IpfsDiag.cs" />
     <Compile Include="Commands\IpfsFile.cs" />
     <Compile Include="Commands\IpfsLog.cs" />
+    <Compile Include="Commands\IpfsNamePubSub.cs" />
     <Compile Include="Commands\IpfsName.cs" />
     <Compile Include="Commands\IpfsPin.cs" />
     <Compile Include="Commands\IpfsPubSub.cs" />

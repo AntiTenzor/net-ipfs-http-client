@@ -265,6 +265,28 @@ namespace Ipfs
         }
 
         /// <summary>
+        /// IPNS PubSub subcommands
+        /// </summary>
+        private IpfsNamePubSub _namePubSub;
+        /// <summary>
+        /// IPNS PubSub subcommands
+        /// </summary>
+        public IpfsNamePubSub NamePubSub
+        {
+            get
+            {
+                if (_namePubSub == null)
+                {
+                    Uri commandUri = UriHelper.AppendPath(_apiUri, "name");
+                    commandUri = UriHelper.AppendPath(commandUri, "pubsub");
+                    _namePubSub = new IpfsNamePubSub(commandUri, _httpClient, _jsonSerializer);
+                }
+
+                return _namePubSub;
+            }
+        }
+
+        /// <summary>
         /// Object subcommands
         /// </summary>
         private IpfsObject _object;
@@ -445,8 +467,8 @@ namespace Ipfs
             {
                 if (_pubsub == null)
                 {
-                    Uri commandUri = UriHelper.AppendPath(_apiUri, "name");
-                    commandUri = UriHelper.AppendPath(commandUri, "pubsub");
+                    //Uri commandUri = UriHelper.AppendPath(_apiUri, "name");
+                    Uri commandUri = UriHelper.AppendPath(_apiUri, "pubsub");
                     _pubsub = new IpfsPubSub(commandUri, _httpClient, _jsonSerializer);
                 }
 
@@ -660,7 +682,7 @@ namespace Ipfs
         {
             await Root.Shutdown(cancellationToken);
         }
-        
+
         /// <summary>
         /// An introduction to IPFS
         ///
@@ -671,6 +693,7 @@ namespace Ipfs
         /// <param name="id">The id of the topic you would like to tour</param>
         /// <param name="cancellationToken">Token allowing you to cancel the request</param>
         /// <returns></returns>
+        [Obsolete("Looks like there is no command Tour anymore(?)")]
         public async Task<Stream> TourCommand(string id, CancellationToken cancellationToken = default(CancellationToken))
         {
             return await Root.TourCommand(id, cancellationToken);

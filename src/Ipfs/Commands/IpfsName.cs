@@ -6,6 +6,11 @@ using System.Threading.Tasks;
 
 namespace Ipfs.Commands
 {
+    /// <summary>
+    /// Name service (IPNS)
+    /// 
+    /// Calls to functions /api/v0/name/[SubCommandName]
+    /// </summary>
     public class IpfsName : IpfsCommand
     {
         internal IpfsName(Uri commandUri, HttpClient httpClient, IJsonSerializer jsonSerializer) : base(commandUri, httpClient, jsonSerializer)
