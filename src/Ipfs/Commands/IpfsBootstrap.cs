@@ -55,7 +55,7 @@ namespace Ipfs.Commands
 
             if (auto)
             {
-                flags.Add("auto", "true");
+                flags.Add("expand-auto", "true");
             }
 
             return await ExecutePostAsync("list", flags, cancellationToken);
